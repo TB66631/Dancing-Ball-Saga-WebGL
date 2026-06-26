@@ -5,7 +5,7 @@ This repository contains an **unofficial, non-commercial WebGL restoration build
 Play online:
 
 ```text
-https://tb66631.github.io/WebGL/
+https://tb66631.github.io/Dancing-Ball-Saga-WebGL/
 ```
 
 ## Important Notice
