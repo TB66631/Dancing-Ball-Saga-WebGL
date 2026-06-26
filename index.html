@@ -24,46 +24,6 @@
       </div>
     </div>
     <script>
-      (function () {
-        const originalLog = console.log.bind(console);
-        const originalWarn = console.warn.bind(console);
-        const originalError = console.error.bind(console);
-
-        function stringify(value) {
-          if (value instanceof Error) return value.stack || value.message;
-          if (typeof value === "string") return value;
-          try { return JSON.stringify(value); } catch (e) { return String(value); }
-        }
-
-        function send(level, args) {
-          const message = Array.prototype.map.call(args, stringify).join(" ");
-          try {
-            navigator.sendBeacon("/__unity_log", "[" + level + "] " + message);
-          } catch (e) {
-            fetch("/__unity_log", { method: "POST", body: "[" + level + "] " + message }).catch(function () {});
-          }
-        }
-
-        console.log = function () {
-          originalLog.apply(console, arguments);
-          send("log", arguments);
-        };
-        console.warn = function () {
-          originalWarn.apply(console, arguments);
-          send("warn", arguments);
-        };
-        console.error = function () {
-          originalError.apply(console, arguments);
-          send("error", arguments);
-        };
-        window.addEventListener("error", function (event) {
-          send("window.error", [event.message, event.filename + ":" + event.lineno + ":" + event.colno, event.error]);
-        });
-        window.addEventListener("unhandledrejection", function (event) {
-          send("unhandledrejection", [event.reason]);
-        });
-      })();
-
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
